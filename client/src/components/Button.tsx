@@ -10,7 +10,7 @@ interface IButtonProps {
     href?: string;
 }
 
-const buttonClassName: string = "iw-block iw-px-4 iw-py-2 iw-rounded iw-text-center"
+const buttonClassName: string = "iw-flex iw-items-center iw-justify-center iw-px-4 iw-min-h-[2.7rem] iw-rounded iw-text-center"
 
 const Button = ({ className = "", type = "submit", text, href = "#" }: IButtonProps) => {
     if (type !== "link" && href !== "#") throw new Error(`<Button type="${type}"/> can't use href props if your button is type: ${type}`)

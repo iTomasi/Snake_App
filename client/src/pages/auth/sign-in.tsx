@@ -1,8 +1,11 @@
+// Components
+import CenterContent from "components/modals/CenterContent";
+
 const AuthSignIn = () => {
     return (
-        <div>
+        <CenterContent>
             Sign In
-        </div>
+        </CenterContent>
     )
 
 }
