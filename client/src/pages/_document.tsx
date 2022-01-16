@@ -6,7 +6,7 @@ class MyDocument extends Document {
             <Html>
                 <Head/>
 
-                <body className="iw-bg-stone-900">
+                <body className="iw-bg-stone-900 iw-text-white iw-text-lg">
                     <Main/>
                     <NextScript/>
                 </body>
