@@ -5,11 +5,12 @@ interface IInputProps {
     type?: "text" | "password";
     placeholder: string;
     name: string;
-    value: string;
-    onChange: React.ChangeEventHandler<HTMLInputElement>;
+    value?: string;
+    onChange?: React.ChangeEventHandler<HTMLInputElement>;
+    onBlur?: React.FocusEventHandler<HTMLInputElement>;
 }
 
-const Input = ({ className = "", type = "text", placeholder, name, value, onChange }: IInputProps) => {
+const Input = ({ className = "", type = "text", placeholder, name, value, onChange, onBlur }: IInputProps) => {
     return (
         <input
             className={`iw-w-full iw-bg-stone-900 iw-px-3 iw-py-2 iw-outline-none iw-rounded focus:iw-outline-violet-500 ${className}`}
@@ -18,6 +19,7 @@ const Input = ({ className = "", type = "text", placeholder, name, value, onChan
             name={name}
             value={value}
             onChange={onChange}
+            onBlur={onBlur}
         />
     )
 }
