@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { toast } from "react-hot-toast";
 
 // Components
 import CenterContent from "components/modals/CenterContent";
@@ -7,6 +8,9 @@ import Button from "components/Button";
 
 // Helpers
 import { email_RegExp } from "helpers/customRegExp";
+
+// Requests
+import { AxiosSignUpEmail } from "requests/localApi/AxiosAuth";
 
 const AuthSignUp = () => {
     const [inputsValids, setInputsValids] = useState({
@@ -28,7 +32,7 @@ const AuthSignUp = () => {
         }
     })
 
-    const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         const formData = new FormData(e.currentTarget);
@@ -38,10 +42,16 @@ const AuthSignUp = () => {
         const password = formData.get("password").toString();
         const confirm_password = formData.get("confirm_password").toString();
 
-        console.log({username})
-        console.log({email})
-        console.log({password})
-        console.log({confirm_password})
+        const { error } = await AxiosSignUpEmail({
+            username, email, password, confirm_password
+        });
+
+        if (error) {
+            toast.error(error);
+            return
+        }
+
+        toast.success("proo");
     }
 
     const handleInputUsername = (e: React.FocusEvent<HTMLInputElement> | React.ChangeEvent<HTMLInputElement>) => {
