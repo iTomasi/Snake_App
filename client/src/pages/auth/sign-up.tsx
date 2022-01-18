@@ -12,7 +12,12 @@ import { email_RegExp } from "helpers/customRegExp";
 // Requests
 import { AxiosSignUpEmail } from "requests/localApi/AxiosAuth";
 
+// Hooks
+import { useUser } from "hooks/useUser";
+
 const AuthSignUp = () => {
+    const { authenticating } = useUser();
+
     const [inputsValids, setInputsValids] = useState({
         username: {
             correct: true,
@@ -42,7 +47,7 @@ const AuthSignUp = () => {
         const password = formData.get("password").toString();
         const confirm_password = formData.get("confirm_password").toString();
 
-        const { error } = await AxiosSignUpEmail({
+        const { error, data } = await AxiosSignUpEmail({
             username, email, password, confirm_password
         });
 
@@ -51,7 +56,9 @@ const AuthSignUp = () => {
             return
         }
 
-        toast.success("proo");
+        authenticating(data);
+
+        toast.success("Logged Successfully");
     }
 
     const handleInputUsername = (e: React.FocusEvent<HTMLInputElement> | React.ChangeEvent<HTMLInputElement>) => {

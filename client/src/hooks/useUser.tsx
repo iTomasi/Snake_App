@@ -2,9 +2,10 @@ import React, { useContext } from "react";
 import { UserContext } from "context/user/UserContext";
 
 export const useUser = () => {
-    const { data } = useContext(UserContext);
+    const { user, authenticating } = useContext(UserContext);
 
     return {
-        user: data
+        user: user.data,
+        authenticating
     }
 }

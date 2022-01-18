@@ -9,21 +9,29 @@ export interface IUser {
     createdAt: string;
 }
 
-export interface IUserContext {
+export interface IUserState {
     data: IUser;
     status: number;
 }
 
+export interface IUserContext {
+    user: IUserState
+    authenticating: (value: IUser) => void
+}
+
 export const initialState: IUserContext = {
-    data: {
-        id: 0,
-        username: "",
-        email: "",
-        profile_picture: "",
-        updatedAt: "",
-        createdAt: ""
+    user: {
+        data: {
+            id: 0,
+            username: "",
+            email: "",
+            profile_picture: "",
+            updatedAt: "",
+            createdAt: ""
+        },
+        status: 0
     },
-    status: 0
+    authenticating: () => {}
 }
 
 export const UserContext = createContext<IUserContext>(initialState);

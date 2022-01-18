@@ -1,11 +1,16 @@
-import { IUserContext } from "./UserContext";
+import { IUserState } from "./UserContext";
+import { userTypes } from "../types";
 
-const UserReducer = (state: IUserContext, action: any) => {
+const UserReducer = (state: IUserState, action: any) => {
     const { type, payload } = action;
 
     switch(type) {
-        case "asdasdasd":
-            return state;
+        case userTypes.authenticating:
+            return {
+                ...state,
+                data: payload,
+                status: 1
+            }
         default:
             return state
     }
