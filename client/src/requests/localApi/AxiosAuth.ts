@@ -29,12 +29,14 @@ export const AxiosSignUpEmail = async (payload: IAxiosSignUpEmail) => {
             }
         );
 
-        console.log(data);
-
         if (data.message !== "OK") return { error: data.message }
 
+        const expiresTokenTime = new Date(Date.now() + (432000 * 1000));
+
+        document.cookie = `token=${data.access_token}; path=/; expires="${expiresTokenTime.toUTCString()}"`
+
         return {
-            success: "PRO"
+            data: data.payload
         }
     }
 

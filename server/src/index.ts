@@ -15,7 +15,6 @@ import postgres from "./databases/postgres";
             app.get("port"),
             () => console.log(`SV ON PORT ${app.get("port")} 🥰`)
         )
-
     }
 
     catch(e) {

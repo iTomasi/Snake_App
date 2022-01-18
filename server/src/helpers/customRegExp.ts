@@ -1,0 +1,1 @@
+export const email_RegExp = new RegExp(/^[A-Za-z0-9_\.]+\@[A-Za-z]+\.[A-Za-z]{2,4}$/);
