@@ -10,6 +10,14 @@ import clearUserData from "../helpers/clearUserData";
 // Models
 import Account from "../models/postgres/Account";
 
+export const GET_userAuthenticated: Handler = (req, res) => {
+    return res.json({
+        message: "OK",
+        payload: req.user,
+        access_token: !req.user_access_token ? "" : req.user_access_token
+    })
+}
+
 export const POST_signUpEmail: Handler = async (req, res) => {
     const { username, email, password, confirm_password } = req.body;
 
@@ -85,5 +93,55 @@ export const POST_signUpEmail: Handler = async (req, res) => {
             message: "Server Error"
         })
     }
-    
+}
+
+export const POST_signInEmail: Handler = async (req, res) => {
+    const { username, password } = req.body;
+
+    if (!username || typeof username !== "string") return res.json({ message: "Username is missing" })
+    else if (!password || typeof password !== "string") return res.json({ message: "Password is missing" })
+
+    try {
+        const user = await Account.findOne({
+            where: {
+                [Op.or]: [
+                    { username_lower: username.trim().toLowerCase() },
+                    { email: username.trim().toLowerCase() }
+                ]
+            }
+        });
+
+        if (!user) return res.json({ message: "User not found :l" })
+
+        const compare = await bcrypt.compare(password, user.getDataValue("password"));
+
+        if (!compare) return res.json({ message: "Password wrong" })
+
+        console.log(user.get());
+
+        const clearUser = clearUserData(user.get());
+
+        const { accessToken } = generateJWT(clearUser);
+
+        user.setDataValue("access_token", accessToken);
+
+        await user.save();
+
+        console.log("AFTER")
+
+        console.log(user.get())
+
+        return res.json({
+            message: "OK",
+            access_token: accessToken,
+            payload: clearUser
+        })
+
+    }
+
+    catch(e) {
+        console.log(e);
+        console.log("POST_signInEmail()");
+        return res.json({ message: "Server Error" })
+    }
 }

@@ -6,6 +6,7 @@ export const useUser = () => {
 
     return {
         user: user.data,
+        status: user.status,
         authenticating
     }
 }

@@ -1,17 +1,56 @@
 import React, { useState } from "react";
+import { toast } from "react-hot-toast";
 
 // Components
 import CenterContent from "components/modals/CenterContent";
 import Input from "components/form/Input";
 import Button from "components/Button";
 
+// Next
+import { useRouter } from "next/router";
+
+// Hooks
+import { useUser } from "hooks/useUser";
+
+// Requests
+import { AxiosSignInEmail } from "requests/localApi/AxiosAuth";
+
 const AuthSignIn = () => {
+    const router = useRouter();
+    const { authenticating } = useUser();
+
     const [inputsFields, setInputsFields] = useState({
         password: {
             correct: true,
             blurActivated: true
         }
-    })
+    });
+
+    const [fetching, setFetching] = useState<boolean>(false);
+
+    const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        const formData = new FormData(e.currentTarget);
+
+        const username = formData.get("username").toString();
+        const password = formData.get("password").toString();
+
+        setFetching(true);
+
+        const { error, data } = await AxiosSignInEmail({ username, password })
+        
+        if (error) {
+            toast.error(error);
+            setFetching(false)
+            return
+        }
+
+        authenticating(data);
+        toast.success("Logged successfully");
+
+        router.push("/")
+    }
 
     const handleInputPassword = (e: React.FocusEvent<HTMLInputElement> | React.ChangeEvent<HTMLInputElement>) => {
         if (
@@ -33,7 +72,7 @@ const AuthSignIn = () => {
 
     return (
         <CenterContent>
-            <form className="iw-bg-stone-800 iw-w-full iw-max-w-md iw-px-4 iw-py-8 iw-rounded">
+            <form className="iw-bg-stone-800 iw-w-full iw-max-w-md iw-px-4 iw-py-8 iw-rounded" onSubmit={handleOnSubmit}>
                 <h1 className="iw-text-2xl iw-text-center iw-font-semibold iw-mb-4">Sign In</h1>
 
                 <div className="iw-mb-4">
@@ -46,6 +85,7 @@ const AuthSignIn = () => {
 
                     <div>
                         <Input
+                            type="password"
                             className={!inputsFields.password.correct ? "iw-mb-4 iw-outline-red-400" : ""}
                             placeholder="Password"
                             name="password"
@@ -64,6 +104,7 @@ const AuthSignIn = () => {
                 <Button
                     className="iw-w-full iw-bg-indigo-500 hover:iw-bg-indigo-400"
                     text="Sign In"
+                    loading={fetching}
                 />
             </form>
         </CenterContent>

@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { toast } from "react-hot-toast";
 
+// Next
+import { useRouter } from "next/router"
+
 // Components
 import CenterContent from "components/modals/CenterContent";
 import Input from "components/form/Input";
@@ -16,6 +19,7 @@ import { AxiosSignUpEmail } from "requests/localApi/AxiosAuth";
 import { useUser } from "hooks/useUser";
 
 const AuthSignUp = () => {
+    const router = useRouter();
     const { authenticating } = useUser();
 
     const [inputsValids, setInputsValids] = useState({
@@ -37,6 +41,8 @@ const AuthSignUp = () => {
         }
     })
 
+    const [fetching, setFetching] = useState<boolean>(false);
+
     const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
@@ -47,18 +53,22 @@ const AuthSignUp = () => {
         const password = formData.get("password").toString();
         const confirm_password = formData.get("confirm_password").toString();
 
+        setFetching(true);
+
         const { error, data } = await AxiosSignUpEmail({
             username, email, password, confirm_password
         });
 
         if (error) {
             toast.error(error);
+            setFetching(false)
             return
         }
 
         authenticating(data);
-
         toast.success("Logged Successfully");
+
+        router.push("/")
     }
 
     const handleInputUsername = (e: React.FocusEvent<HTMLInputElement> | React.ChangeEvent<HTMLInputElement>) => {
@@ -221,6 +231,7 @@ const AuthSignUp = () => {
                 <Button
                     className="iw-bg-indigo-500 iw-w-full hover:iw-bg-indigo-400"
                     text="Create Account"
+                    loading={fetching}
                 />
             </form>
         </CenterContent>
