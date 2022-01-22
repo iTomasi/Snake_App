@@ -1,7 +1,10 @@
 import React, { useReducer, useEffect } from "react";
-import { UserContext, initialState, IUser } from "./UserContext";
+import { UserContext, initialStateUser, IUser } from "./UserContext";
 import UserReducer from "./UserReducer";
 import { userTypes } from "../types";
+import { removeCookie } from "helpers/handleCookie";
+import { useRouter } from "next/router";
+import { toast } from "react-hot-toast";
 
 // Axios
 import { AxiosUserAuthenticated } from "requests/localApi/AxiosAuth";
@@ -11,7 +14,8 @@ interface IUserStateProps {
 }
 
 const UserState = ({ children }: IUserStateProps) => {
-    const [state, dispatch] = useReducer(UserReducer, initialState.user);
+    const router = useRouter();
+    const [state, dispatch] = useReducer(UserReducer, initialStateUser);
 
     useEffect(() => {
         const effectFunc = async () => {
@@ -38,10 +42,23 @@ const UserState = ({ children }: IUserStateProps) => {
         })
     }
 
+    const logout = () => {
+        removeCookie("token")
+
+        dispatch({
+            type: userTypes.logout,
+            payload: initialStateUser.data
+        });
+
+        router.push("/auth/sign-in")
+        toast.success("Logout")
+    }
+
     return (
         <UserContext.Provider value={{
             user: state,
-            authenticating
+            authenticating,
+            logout
         }}>
             {children}
         </UserContext.Provider>

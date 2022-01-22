@@ -1,5 +1,8 @@
 import React, { useEffect } from "react";
 
+// Components
+import LottieLoader from "./LottieLoader";
+
 // Hooks
 import { useUser } from "hooks/useUser";
 
@@ -8,14 +11,13 @@ interface IMainLayoutProps {
 }
 
 const MainLayout = ({ children }: IMainLayoutProps) => {
-    const { user } = useUser();
-
-    useEffect(() => {
-        console.log(user)
-    }, [user])
+    const { status } = useUser();
 
     return (
         <>
+            {
+                status === 0 && <LottieLoader/>
+            }
             {children}
         </>
     )

@@ -16,22 +16,26 @@ export interface IUserState {
 
 export interface IUserContext {
     user: IUserState
-    authenticating: (value: IUser) => void
+    authenticating: (value: IUser) => void;
+    logout: () => void;
 }
 
-export const initialState: IUserContext = {
-    user: {
-        data: {
-            id: 0,
-            username: "",
-            email: "",
-            profile_picture: "",
-            updatedAt: "",
-            createdAt: ""
-        },
-        status: 0
+export const initialStateUser: IUserState = {
+    data: {
+        id: 0,
+        username: "",
+        email: "",
+        profile_picture: "",
+        updatedAt: "",
+        createdAt: ""
     },
-    authenticating: () => {}
+    status: 0
+}
+
+const initialState: IUserContext = {
+    user: initialStateUser,
+    authenticating: () => {},
+    logout: () => {}
 }
 
 export const UserContext = createContext<IUserContext>(initialState);

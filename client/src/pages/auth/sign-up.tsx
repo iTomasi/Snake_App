@@ -236,7 +236,8 @@ const AuthSignUp = () => {
             </form>
         </CenterContent>
     )
-
 }
+
+AuthSignUp.AuthPage = true;
 
 export default AuthSignUp;

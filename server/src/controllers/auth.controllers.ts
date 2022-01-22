@@ -117,8 +117,6 @@ export const POST_signInEmail: Handler = async (req, res) => {
 
         if (!compare) return res.json({ message: "Password wrong" })
 
-        console.log(user.get());
-
         const clearUser = clearUserData(user.get());
 
         const { accessToken } = generateJWT(clearUser);
@@ -127,16 +125,11 @@ export const POST_signInEmail: Handler = async (req, res) => {
 
         await user.save();
 
-        console.log("AFTER")
-
-        console.log(user.get())
-
         return res.json({
             message: "OK",
             access_token: accessToken,
             payload: clearUser
         })
-
     }
 
     catch(e) {

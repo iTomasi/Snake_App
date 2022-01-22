@@ -24,6 +24,13 @@ const UserReducer = (state: IUserState, action: any) => {
                 data: payload,
                 status: 1
             }
+    
+        case userTypes.logout:
+            return {
+                ...state,
+                data: payload,
+                status: 2
+            }
         default:
             return state
     }

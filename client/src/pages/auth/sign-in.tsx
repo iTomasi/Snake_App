@@ -109,7 +109,8 @@ const AuthSignIn = () => {
             </form>
         </CenterContent>
     )
-
 }
+
+AuthSignIn.AuthPage = true;
 
 export default AuthSignIn;

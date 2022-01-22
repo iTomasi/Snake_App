@@ -1,24 +1,60 @@
 import React from "react";
 
+// Next
+import Link from "next/link";
+
 // Components
 import Button from "../Button";
+import NoAvatarPicture from "../NoAvatarPicture";
+
+// Hooks
+import { useUser } from "hooks/useUser";
 
 const Right = () => {
-    return (
-        <div className="iw-flex">
-            <Button
-                className="iw-bg-indigo-500 active:iw-bg-indigo-600 iw-mr-4"
-                type="link"
-                text="Sign In"
-                href="/auth/sign-in"
-            />
+    const { user, status, logout } = useUser()
 
-            <Button
-                className="iw-bg-indigo-500 active:iw-bg-indigo-600"
-                type="link"
-                text="Sign Up"
-                href="/auth/sign-up"
-            />
+    const handleOnClickLogout = () => logout()
+
+    return (
+        <div className="iw-flex iw-items-center">
+            {
+                status === 1
+                ? (
+                    <>
+                    <Link href={`/user/${user.username.toLowerCase()}`}>
+                        <a>
+                            <NoAvatarPicture
+                                className="iw-w-12 iw-h-12 iw-mr-4 iw-text-2xl"
+                                text={user.username}
+                            />
+                        </a>
+                    </Link>
+                    <Button
+                        className="iw-bg-red-400 active:iw-bg-red-500"
+                        type="button"
+                        text="Logout"
+                        onClick={handleOnClickLogout}
+                    />
+                    </>
+                )
+                : (
+                    <>
+                    <Button
+                        className="iw-bg-indigo-500 active:iw-bg-indigo-600 iw-mr-4"
+                        type="link"
+                        text="Sign In"
+                        href="/auth/sign-in"
+                    />
+
+                    <Button
+                        className="iw-bg-indigo-500 active:iw-bg-indigo-600"
+                        type="link"
+                        text="Sign Up"
+                        href="/auth/sign-up"
+                    />
+                    </>
+                )
+            }
         </div>
     )
 };
