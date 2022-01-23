@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { toast } from "react-hot-toast";
 import { GetServerSidePropsContext } from "next";
 
 // Components
@@ -7,6 +8,8 @@ import SaveChangesCard from "components/profile/SaveChangesCard";
 
 // Axios
 import { AxiosGetUser } from "requests/localApi/AxiosUser";
+import { AxiosCloudinary } from "requests/AxiosBase";
+import AxiosCloudinaryUploadImage from "requests/cloudinary/AxiosCloudinaryUploadImage";
 
 // Types
 import { IUserEditable } from "types/User";
@@ -24,6 +27,7 @@ const UserProfile = ({ status, message, data, user_account }) => {
     })
 
     const [showCard, setShowCard] = useState<boolean>(false);
+    const [fetching, setFetching] = useState<boolean>(false);
 
     useEffect(() => {
         if (!user_account) return
@@ -44,12 +48,43 @@ const UserProfile = ({ status, message, data, user_account }) => {
         }
 
         setShowCard(userHaveChanges);
-
-
     }, [editableUser])
 
-    const handleOnClickSave = () => {
-        console.log("click save")
+    const handleOnClickSave = async () => {
+        let profile_picture_url: string = data.profile_picture;
+
+        setFetching(true);
+
+        if (editableUser.profile_picture.blob) {
+            try {
+                const formData = AxiosCloudinaryUploadImage({
+                    blob: editableUser.profile_picture.blob,
+                    folder: `user/${data.id}`
+                });
+
+                const { data: axiosData } = await AxiosCloudinary.post(
+                    "/image/upload",
+                    formData,
+                    {
+                        onUploadProgress: (e: any) => {
+                            const percentage = (e.loaded * 100) / e.total;
+                            console.log(percentage);
+                        }
+                    }
+                )
+
+                profile_picture_url = axiosData.secure_url;
+            }
+
+            catch(e) {
+                console.log(e);
+                console.log("handleOnClickSave() Cloudinary");
+                toast.error("Cloudinary error connection")
+            }
+        }
+
+        toast.success("PRO")
+        setFetching(false)
     }
 
     const handleOnClickDiscard = () => {
@@ -78,6 +113,7 @@ const UserProfile = ({ status, message, data, user_account }) => {
                 show={showCard}
                 onClickSave={handleOnClickSave}
                 onClickDiscard={handleOnClickDiscard}
+                loading={fetching}
             />
         </div>
     )

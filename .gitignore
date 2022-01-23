@@ -1,6 +1,7 @@
 client/node_modules
 client/.next
 client/.DS_Store
+client/.env
 
 server/node_modules
 server/.DS_Store
