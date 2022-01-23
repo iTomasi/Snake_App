@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 
 // Components
 import Header from "components/header/Header";
+import Layout from "components/Layout";
 import MainLayout from "components/MainLayout";
 import { Toaster } from "react-hot-toast";
 
@@ -36,7 +37,9 @@ const App = ({ Component, pageProps }) => {
                 {
                     !router.pathname.startsWith("/auth") && <Header/>
                 }
-                <TheComponent/>
+                <Layout>
+                    <TheComponent/>
+                </Layout>
             </MainLayout>
         </UserState>
     )
