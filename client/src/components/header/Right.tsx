@@ -22,11 +22,17 @@ const Right = () => {
                 ? (
                     <>
                     <Link href={`/user/${user.username.toLowerCase()}`}>
-                        <a>
-                            <NoAvatarPicture
-                                className="iw-w-12 iw-h-12 iw-mr-4 iw-text-2xl"
-                                text={user.username}
-                            />
+                        <a className="iw-block iw-mr-4">
+                            {
+                                user.profile_picture
+                                ? <img className="iw-w-12 iw-h-12 iw-object-cover iw-object-center iw-rounded-full" src={user.profile_picture} alt="user picture"/>
+                                : (
+                                    <NoAvatarPicture
+                                        className="iw-w-12 iw-h-12 iw-text-2xl"
+                                        text={user.username}
+                                    />
+                                )
+                            }
                         </a>
                     </Link>
                     <Button

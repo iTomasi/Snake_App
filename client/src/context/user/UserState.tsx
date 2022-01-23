@@ -5,6 +5,7 @@ import { userTypes } from "../types";
 import { removeCookie } from "helpers/handleCookie";
 import { useRouter } from "next/router";
 import { toast } from "react-hot-toast";
+import { IUserEditAxios } from "types/User";
 
 // Axios
 import { AxiosUserAuthenticated } from "requests/localApi/AxiosAuth";
@@ -54,11 +55,19 @@ const UserState = ({ children }: IUserStateProps) => {
         toast.success("Logout")
     }
 
+    const updateUser = (payload: IUserEditAxios) => {
+        dispatch({
+            type: userTypes.update,
+            payload
+        })
+    }
+
     return (
         <UserContext.Provider value={{
             user: state,
             authenticating,
-            logout
+            logout,
+            updateUser
         }}>
             {children}
         </UserContext.Provider>

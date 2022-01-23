@@ -7,17 +7,22 @@ import PictureAndUsername from "components/profile/PictureAndUsername";
 import SaveChangesCard from "components/profile/SaveChangesCard";
 
 // Axios
-import { AxiosGetUser } from "requests/localApi/AxiosUser";
+import { AxiosGetUser, AxiosEditUser } from "requests/localApi/AxiosUser";
 import { AxiosCloudinary } from "requests/AxiosBase";
 import AxiosCloudinaryUploadImage from "requests/cloudinary/AxiosCloudinaryUploadImage";
 
 // Types
 import { IUserEditable } from "types/User";
 
+// Hooks
+import { useUser } from "hooks/useUser";
+
 const UserProfile = ({ status, message, data, user_account }) => {
     if (status === 0) {
         return <h3>{message}</h3>
     }
+
+    const { updateUser } = useUser();
 
     const [editableUser, setEditableUser] = useState<IUserEditable>({
         profile_picture: {
@@ -83,7 +88,21 @@ const UserProfile = ({ status, message, data, user_account }) => {
             }
         }
 
-        toast.success("PRO")
+        const { error } = await AxiosEditUser({
+            profile_picture: profile_picture_url
+        })
+
+        if (error) {
+            toast.error(error);
+        }
+
+        else {
+            updateUser({
+                profile_picture: profile_picture_url
+            })
+            toast.success("Data saved successfully")
+        }
+
         setFetching(false)
     }
 

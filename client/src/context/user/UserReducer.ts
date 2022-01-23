@@ -31,6 +31,15 @@ const UserReducer = (state: IUserState, action: any) => {
                 data: payload,
                 status: 2
             }
+
+        case userTypes.update:
+            return {
+                ...state,
+                data: {
+                    ...state.data,
+                    ...payload
+                }
+            }
         default:
             return state
     }

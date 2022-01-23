@@ -14,5 +14,6 @@ router.post("/auth/sign-in", authCtrls.POST_signInEmail);
 
 // User Routes
 router.get("/user/:username", userCtrls.GET_user);
+router.put("/user", passport_jwt, userCtrls.PUT_updateUser)
 
 export default router;

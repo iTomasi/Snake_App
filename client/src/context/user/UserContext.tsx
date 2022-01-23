@@ -1,4 +1,5 @@
-import {createContext} from "react";
+import { createContext } from "react";
+import { IUserEditAxios } from "types/User";
 
 export interface IUser {
     id: number;
@@ -18,6 +19,7 @@ export interface IUserContext {
     user: IUserState
     authenticating: (value: IUser) => void;
     logout: () => void;
+    updateUser: (payload: IUserEditAxios) => void;
 }
 
 export const initialStateUser: IUserState = {
@@ -35,7 +37,8 @@ export const initialStateUser: IUserState = {
 const initialState: IUserContext = {
     user: initialStateUser,
     authenticating: () => {},
-    logout: () => {}
+    logout: () => {},
+    updateUser: () => {}
 }
 
 export const UserContext = createContext<IUserContext>(initialState);

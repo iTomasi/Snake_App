@@ -12,13 +12,6 @@ const passport_jwt: Handler = async (req, res, next) => {
 
     const split = authorization.split(" ");
 
-    const { data } = verifyJWT(split[1]);
-
-    if (data) {
-        req.user = data;
-        return next();
-    }    
-
     try {
         const user = await Account.findOne({
             where: {
@@ -30,13 +23,18 @@ const passport_jwt: Handler = async (req, res, next) => {
 
         const clearUser = clearUserData(user.get());
 
-        const { accessToken } = generateJWT(clearUser);
+        const verifyToken = verifyJWT(user.getDataValue("access_token"));
 
-        user.setDataValue("access_token", accessToken);
+        if (verifyToken.error) {
+            const { accessToken } = generateJWT(clearUser);
 
-        await user.save();
+            user.setDataValue("access_token", accessToken);
 
-        req.user_access_token = accessToken;
+            await user.save();
+
+            req.user_access_token = accessToken;
+        }
+
         req.user = clearUser;
 
         return next();

@@ -8,6 +8,9 @@ import clearUserData from "../helpers/clearUserData";
 import verifyJWT from "../helpers/verifyJWT";
 import generateJWT from "../helpers/generateJWT";
 
+// Config
+import globalsCfg from "../config/globals";
+
 export const GET_user: Handler = async (req, res) => {
     const { username } = req.params;
 
@@ -59,7 +62,6 @@ export const GET_user: Handler = async (req, res) => {
                     user_account = true;
                 }
             }
-
         }
 
         return res.json({
@@ -74,5 +76,44 @@ export const GET_user: Handler = async (req, res) => {
         console.log(e);
         console.log("GET_user() Error");
         return res.json({message: "Server Error"})
+    }
+}
+
+export const PUT_updateUser: Handler = async (req, res) => {
+    const body = req.body;
+
+    const objectEntriesBody = Object.entries(body);
+
+    if (objectEntriesBody[0] === undefined) return res.json({ message: "body blank" })
+
+    const allowedsFields: any = globalsCfg.USER_FIELDS_ALLOWED;
+
+    for (let i = 0; i < objectEntriesBody.length; i++) {
+        const [key] = objectEntriesBody[i];
+
+        if (!allowedsFields[key]) {
+            return res.json({ message: `${key} is not allowed for edit the user` })
+        }
+    }
+
+    const userDb = req.user;
+
+    try {
+        await Account.update(
+            body,
+            {
+                where: {
+                    id: userDb.id
+                }
+            }
+        );
+
+        return res.json({message: "OK"})
+    }
+
+    catch(e) {
+        console.log(e);
+        console.log("POST_updateUser() Error");
+        return res.json({ message: "Server Error" })
     }
 }

@@ -4,3 +4,7 @@ export interface IUserEditable {
         blob: Blob | null;
     }
 }
+
+export interface IUserEditAxios {
+    profile_picture?: string;
+}
