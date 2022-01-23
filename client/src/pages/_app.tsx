@@ -9,6 +9,7 @@ import { Toaster } from "react-hot-toast";
 
 // Routes
 import AuthRoute from "routes/AuthRoute.routes";
+import ProtectRoute from "routes/ProtectRoute.routes";
 
 // Context State
 import UserState from "context/user/UserState";
@@ -24,6 +25,14 @@ const App = ({ Component, pageProps }) => {
                 <AuthRoute>
                     <Component {...pageProps}/>
                 </AuthRoute>
+            )
+        }
+
+        else if (Component.ProtectRoute) {
+            return (
+                <ProtectRoute>
+                    <Component {...pageProps}/>
+                </ProtectRoute>
             )
         }
 

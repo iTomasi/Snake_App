@@ -18,11 +18,7 @@ const AuthRoute = ({ children }: IAuthRouteProps) => {
     const { status } = useUser();
 
     useEffect(() => {
-        if (status === 0) return
-        else if (status === 2) {
-            console.log("no logged")
-            return
-        }
+        if (status !== 1) return
 
         router.push("/");
     }, [status])

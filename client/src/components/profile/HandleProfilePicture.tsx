@@ -30,6 +30,8 @@ const HandleProfilePicture = ({ className = "", setEditableUser }: IHandleProfil
         try {
             const file = e.target.files[0];
 
+            e.target.value = null;
+
             handlePicture(file);
         }
 

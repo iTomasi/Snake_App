@@ -165,7 +165,7 @@ const AuthSignUp = () => {
 
     return (
         <CenterContent>
-            <form className="iw-bg-stone-800 iw-w-full iw-max-w-md iw-px-4 iw-py-8 iw-rounded" onSubmit={handleOnSubmit}>
+            <form className="iw-bg-stone-800 iw-w-11/12 iw-max-w-md iw-px-4 iw-py-8 iw-rounded" onSubmit={handleOnSubmit}>
                 <h1 className="iw-text-center iw-font-semibold iw-mb-4 iw-text-2xl">Sign Up</h1>
 
                 <div className="iw-mb-4">

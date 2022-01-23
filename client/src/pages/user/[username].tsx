@@ -22,7 +22,7 @@ const UserProfile = ({ status, message, data, user_account }) => {
         return <h3>{message}</h3>
     }
 
-    const { updateUser } = useUser();
+    const { updateUser, user, status: userStatus } = useUser();
 
     const [editableUser, setEditableUser] = useState<IUserEditable>({
         profile_picture: {
@@ -35,7 +35,7 @@ const UserProfile = ({ status, message, data, user_account }) => {
     const [fetching, setFetching] = useState<boolean>(false);
 
     useEffect(() => {
-        if (!user_account) return
+        if (!user_account || userStatus !== 1) return
 
         const objectEntriesEditableUser = Object.entries(editableUser);
 
@@ -45,7 +45,7 @@ const UserProfile = ({ status, message, data, user_account }) => {
             const [key, value] = objectEntriesEditableUser[i];
 
             if (key === "profile_picture") {
-                if (data[key] === undefined || data[key] !== value.url) {
+                if (user[key] === undefined || user[key] !== value.url) {
                     userHaveChanges = true;
                     break
                 }
@@ -53,10 +53,10 @@ const UserProfile = ({ status, message, data, user_account }) => {
         }
 
         setShowCard(userHaveChanges);
-    }, [editableUser])
+    }, [editableUser, user])
 
     const handleOnClickSave = async () => {
-        let profile_picture_url: string = data.profile_picture;
+        let profile_picture_url: string = (user.profile_picture && !editableUser.profile_picture.url) ? "" : user.profile_picture
 
         setFetching(true);
 
@@ -98,7 +98,7 @@ const UserProfile = ({ status, message, data, user_account }) => {
 
         else {
             updateUser({
-                profile_picture: profile_picture_url
+                profile_picture: editableUser.profile_picture.url
             })
             toast.success("Data saved successfully")
         }
@@ -112,7 +112,7 @@ const UserProfile = ({ status, message, data, user_account }) => {
                 ...prev,
                 profile_picture: {
                     ...prev.profile_picture,
-                    url: data.profile_picture,
+                    url: user.profile_picture,
                     blob: null
                 }
             }
