@@ -6,7 +6,7 @@ interface ILayoutProps {
 
 const Layout = ({ children }: ILayoutProps) => {
     return (
-        <main className="iw-w-full iw-max-w-screen-xl iw-mx-auto iw-py-4">
+        <main className="iw-w-11/12 iw-max-w-screen-xl iw-mx-auto iw-py-4">
             {children}
         </main>
     )

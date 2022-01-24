@@ -1,9 +1,12 @@
 import React from "react";
 
+// Components
+import SnakeGame from "components/game/SnakeGame";
+
 const Play = () => {
     return (
         <div>
-            Play
+            <SnakeGame/>
         </div>
     )
 }
