@@ -177,12 +177,21 @@ const handleSnakeGame = ($canvas: HTMLCanvasElement) => {
     snakeFood.x = theFood.x
     snakeFood.y = theFood.y;
 
-    setInterval(() => {
-        updateGame($canvas);
-    }, 30)
+    let interval: any;
 
     return {
-        on: onListenerEvent($canvas)
+        on: onListenerEvent($canvas),
+        start: (miliseconds: number) => {
+            interval = setInterval(() => {
+                updateGame($canvas)
+            }, miliseconds)
+        },
+        stop: () => {
+            if (interval) {
+                snakePositions = [ {x: 10, y: 10, direction: 1} ]
+                clearInterval(interval)
+            }  
+        }
     }
 }
 

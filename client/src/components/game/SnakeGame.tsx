@@ -12,11 +12,15 @@ const SnakeGame = () => {
 
         const snake = handleSnakeGame($canvas);
 
+        snake.start(40)
+
         snake.on("foodeaten", () => {
             setScore((prev) => prev + 1)
         })
 
         snake.on("gameover", () => setScore(0))
+
+        return () => snake.stop()
     }, [])
 
     return (
