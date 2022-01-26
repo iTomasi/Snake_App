@@ -5,3 +5,7 @@ export const userTypes = {
     logout: "@user_logout",
     update: "@user_update"
 }
+
+export const socketTypes = {
+    connect: "@socket_connect"
+}

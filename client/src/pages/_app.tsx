@@ -13,6 +13,7 @@ import ProtectRoute from "routes/ProtectRoute.routes";
 
 // Context State
 import UserState from "context/user/UserState";
+import SocketState from "context/socket/SocketState";
 
 import "css/App.css";
 
@@ -41,15 +42,17 @@ const App = ({ Component, pageProps }) => {
 
     return (
         <UserState>
-            <MainLayout>
-                <Toaster/>
-                {
-                    !router.pathname.startsWith("/auth") && <Header/>
-                }
-                <Layout>
-                    <TheComponent/>
-                </Layout>
-            </MainLayout>
+            <SocketState>
+                <MainLayout>
+                    <Toaster/>
+                    {
+                        !router.pathname.startsWith("/auth") && <Header/>
+                    }
+                    <Layout>
+                        <TheComponent/>
+                    </Layout>
+                </MainLayout>
+            </SocketState>
         </UserState>
     )
 }
