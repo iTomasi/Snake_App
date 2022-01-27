@@ -13,7 +13,6 @@ const SnakeGame = () => {
 
     useEffect(() => {
         if (!socket) return
-        console.log(socket)
 
         const $canvas = canvasRef.current;
 
