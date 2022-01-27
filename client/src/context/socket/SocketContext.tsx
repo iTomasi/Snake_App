@@ -2,11 +2,11 @@ import { createContext } from "react";
 import { Socket } from "socket.io-client";
 
 interface ISocketContext {
-    socket: Socket | object;
+    socket: Socket | null;
 }
 
 export const initialState: ISocketContext = {
-    socket: {}
+    socket: null
 }
 
 export const SocketContext = createContext<ISocketContext>(initialState);

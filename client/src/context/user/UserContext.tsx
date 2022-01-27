@@ -6,6 +6,9 @@ export interface IUser {
     username: string;
     email: string;
     profile_picture: string;
+    maxScores: {
+        snake: number
+    }
     updatedAt: string;
     createdAt: string;
 }
@@ -28,6 +31,9 @@ export const initialStateUser: IUserState = {
         username: "",
         email: "",
         profile_picture: "",
+        maxScores: {
+            snake: 0
+        },
         updatedAt: "",
         createdAt: ""
     },

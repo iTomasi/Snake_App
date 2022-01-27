@@ -3,11 +3,18 @@ import React, { useRef, useEffect, useState } from "react";
 // Helpers
 import handleSnakeGame from "helpers/game/handleSnakeGame";
 
+// Hooks
+import { useSocket } from "hooks/useSocket";
+
 const SnakeGame = () => {
+    const socket = useSocket();
     const canvasRef = useRef<HTMLCanvasElement>();
     const [score, setScore] = useState<number>(0);
 
     useEffect(() => {
+        if (!socket) return
+        console.log(socket)
+
         const $canvas = canvasRef.current;
 
         const snake = handleSnakeGame($canvas);
@@ -15,13 +22,17 @@ const SnakeGame = () => {
         snake.start(40)
 
         snake.on("foodeaten", () => {
+            socket.emit("food_eaten", "+1")
             setScore((prev) => prev + 1)
         })
 
-        snake.on("gameover", () => setScore(0))
+        snake.on("gameover", () => {
+            socket.emit("game_over", "gg!");
+            setScore(0)
+        })
 
         return () => snake.stop()
-    }, [])
+    }, [socket])
 
     return (
         <div>

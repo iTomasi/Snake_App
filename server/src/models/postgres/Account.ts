@@ -28,6 +28,13 @@ const Account = postgres.define("Account", {
         allowNull: true,
         defaultValue: ""
     },
+    maxScores: {
+        type: DataTypes.JSONB,
+        allowNull: false,
+        defaultValue: {
+            snake: 0
+        }
+    },
     access_token: {
         type: DataTypes.STRING(1000),
         allowNull: true,

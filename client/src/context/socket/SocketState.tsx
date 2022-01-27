@@ -16,18 +16,29 @@ const SocketState = ({ children }: ISocketStateProps) => {
     const [state, dispatch] = useReducer(socketReducer, initialState)
 
     useEffect(() => {
-        if (status !== 1) return
+        if (status === 0) return
+        if (status === 2 && state.socket) {
+            state.socket.disconnect();
+            return
+        }
 
         dispatch({
             type: socketTypes.connect,
             payload: user.id
-        })
-
+        });
     }, [status])
+
+    useEffect(() => {
+        if (!state.socket) return
+
+        return () => {
+            state.socket.close()
+        }
+    }, [state])
 
     return (
         <SocketContext.Provider value={{
-            socket: state
+            socket: state.socket
         }}>
             {children}
         </SocketContext.Provider>
