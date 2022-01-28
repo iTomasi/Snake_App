@@ -3,6 +3,7 @@ client/.next
 client/.DS_Store
 client/.env
 
+server/dist
 server/node_modules
 server/.DS_Store
 server/.env
