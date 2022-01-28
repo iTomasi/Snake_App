@@ -4,6 +4,7 @@ import passport_jwt from "../custom_passport/passport_jwt";
 // Controllers
 import * as authCtrls from "../controllers/auth.controllers";
 import * as userCtrls from "../controllers/user.controllers";
+import * as appCtrls from "../controllers/app.controllers";
 
 const router = Router();
 
@@ -14,6 +15,9 @@ router.post("/auth/sign-in", authCtrls.POST_signInEmail);
 
 // User Routes
 router.get("/user/:username", userCtrls.GET_user);
-router.put("/user", passport_jwt, userCtrls.PUT_updateUser)
+router.put("/user", passport_jwt, userCtrls.PUT_updateUser);
+
+// App Routes
+router.get("/app/leaderboard", appCtrls.GET_leaderboard);
 
 export default router;

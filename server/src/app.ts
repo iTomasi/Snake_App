@@ -28,8 +28,6 @@ app.use("/api", indexRoutes);
 io.on("connection", (socket) => {
     const userId = socket.handshake.query.userId?.toString();
 
-    console.log(userId)
-
     if (!userId) return
 
     const findIndex = usersOnline.findIndex((value) => value.id === userId);
@@ -112,7 +110,6 @@ io.on("connection", (socket) => {
     })
 
     socket.on("disconnect", () => {
-        console.log(socket.id + " " + "Disconnected")
         const findIndex_0 = usersOnline.findIndex((value) => value.id === userId);
 
         if (findIndex_0 === -1) {
