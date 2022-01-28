@@ -1,9 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
+
+// Components
+import UserTable from "components/leaderboard/UserTable";
 
 // Requests
 import { AxiosGetLeaderboard } from "requests/localApi/AxiosApp";
 
 const LeaderBoard = () => {
+    const [data, setData] = useState<any[]>([]);
 
     useEffect(() => {
         const effectFunc = async () => {
@@ -11,8 +15,7 @@ const LeaderBoard = () => {
 
             if (error) return console.log(error)
 
-            console.log(data)
-
+            setData(data)
         }
 
         effectFunc();
@@ -20,7 +23,9 @@ const LeaderBoard = () => {
 
     return (
         <div>
-            LeaderBoard
+            <UserTable
+                data={data}
+            />
         </div>
     )
 };
