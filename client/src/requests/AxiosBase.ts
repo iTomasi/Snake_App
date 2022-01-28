@@ -3,7 +3,7 @@ import Axios from "axios";
 const localApiUrl = process.env.NEXT_PUBLIC_API_LOCAL || "http://localhost:4000"
 
 export const AxiosLocalApi = Axios.create({
-    baseURL: "http://localhost:4000/api"
+    baseURL: `${localApiUrl}/api`
 })
 
 export const AxiosCloudinary = Axios.create({
