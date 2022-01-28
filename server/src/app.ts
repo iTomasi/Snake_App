@@ -10,7 +10,7 @@ import indexRoutes from "./routes/index.routes";
 
 const app = express();
 const server = createServer(app);
-const io = new Server(server, { cors: { origin: ["http://localhost:3000"] } })
+const io = new Server(server, { cors: { origin: ["http://localhost:3000", "https://snake-app.vercel.app"] } })
 
 app.set("port", process.env.PORT || 4000);
 app.use(cors());

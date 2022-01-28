@@ -6,7 +6,7 @@ const socketReducer = (state: any, action: any) => {
 
     switch(type) {
         case socketTypes.connect:
-            const socket = io("http://localhost:4000", {
+            const socket = io(process.env.NEXT_PUBLIC_API_LOCAL || "http://localhost:4000", {
                 query: {
                     userId: payload
                 }
